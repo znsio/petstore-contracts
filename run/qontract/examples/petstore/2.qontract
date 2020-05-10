@@ -16,20 +16,20 @@ Feature: Contract for the petstore service
     And json Orders (Order*)
 
   Scenario: Fetch pet details
-    Given fact id (number)
-    When GET /pets/(id:number)
+    Given fact id (string)
+    When GET /pets/(id:string)
     Then status 200
     And response-body (Pet)
 
   Scenario: Update pet details
-    Given fact id (number)
+    Given fact id (string)
     When POST /pets
     And request-body (Pet)
     Then status 200
 
   Scenario: Delete an existing pet from the database
-    Given fact id (number)
-    When DELETE /pets/(id:number)
+    Given fact id (string)
+    When DELETE /pets/(id:string)
     Then status 200
 
   Scenario: Create a new pet
