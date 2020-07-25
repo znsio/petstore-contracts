@@ -73,9 +73,10 @@ def to_meta_file_name(path):
 
 
 def invoke_pipeline(owner, repo, bearer_token):
+    print("Invoking pipeline for owner {owner}, repo {repo}")
     payload = "{\"event_type\":\"run_action\"}"
     stream = os.popen(f"curl -X POST -H \"Authorization: token ${bearer_token}\" -H 'Accept: application/vnd.github.v3+json' -d '{payload}' https://api.github.com/repos/{owner}/{repo}/dispatches")
-    stream.read()
+    print(stream.read())
 
 
 @log_call
