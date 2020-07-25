@@ -72,9 +72,9 @@ def to_meta_file_name(path):
     return os.path.splitext(path)[0] + ".json"
 
 
-def invoke_pipeline(owner, repo, access_token_name):
-    print(f"Invoking pipeline for owner {owner}, repo {repo}")
-    payload = "{\"event_type\":\"run_action\"}"
+def invoke_pipeline(owner, repo, event_type, access_token_name):
+    print(f"Invoking pipeline for owner {owner}, repo {repo}, type {event_type}")
+    payload = "{\"event_type\":\"" + event_type + "\"}"
     command = f"curl -X POST -H \"Authorization: token ${access_token_name}\" -H 'Accept: application/vnd.github.v3+json' -d '{payload}' https://api.github.com/repos/{owner}/{repo}/dispatches"
     print(command)
     stream = os.popen(command)

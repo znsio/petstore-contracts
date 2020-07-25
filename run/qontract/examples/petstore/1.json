@@ -1,5 +1,5 @@
 {
   "pipelines": [
-    {"owner":  "qontract", "repo":  "petstore"}
+    {"owner":  "qontract", "repo":  "petstore", "event_type":  "contracts_changed"}
   ]
 }
