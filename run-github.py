@@ -21,6 +21,11 @@ def log_call(fn):
 
 
 @log_call
+def get_commit_range(event_data):
+    print(event_data)
+    return (event_data['before'], event_data['after'])
+
+@log_call
 def get_commit_ids(event_data):
     print(event_data)
     if 'commits' not in event_data:
@@ -43,6 +48,18 @@ def load_meta_data(file_path):
 def line_to_pipeline_data(line):
     organization, project, definitionId = line.split()
     return {"organization": organization, "project": project, "definitionId": int(definitionId)}
+
+
+@log_call
+def get_changed_contracts_in_range(commit_range):
+    commit_ids_str = ' '.join(commit_range)
+    git_command = f"git diff --name-only {commit_ids_str}"
+    stream = os.popen(git_command)
+    raw_lines = stream.readlines()
+    print(f"Ran git command {git_command}")
+    print(f"Output: {raw_lines}")
+    lines = [line.strip() for line in raw_lines]
+    return [path for path in lines if path.endswith(".qontract")]
 
 
 @log_call
@@ -90,8 +107,9 @@ stream = os.popen(f"git --version")
 print(stream.read())
 
 event_data = read_event_data()
-commit_ids = get_commit_ids(event_data)
-changed_contracts = get_changed_contracts(commit_ids)
+# commit_ids = get_commit_ids(event_data)
+commit_range = get_commit_range(event_data)
+changed_contracts = get_changed_contracts_in_range(commit_range)
 meta_data_file_paths = get_meta_data_paths(changed_contracts)
 pipelines = get_pipelines(meta_data_file_paths)
 # invoke_pipelines(pipelines, SYSTEM_ACCESSTOKEN)
