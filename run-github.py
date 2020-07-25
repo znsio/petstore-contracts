@@ -10,7 +10,7 @@ def read_event_data():
         return json.loads(f.read())
 
 
-def log_return(fn):
+def log_call(fn):
     def log_wrapper(*args, **kwargs):
         print(f"Calling {fn.__name__} -----")
         result = fn(*args, **kwargs)
@@ -20,7 +20,7 @@ def log_return(fn):
     return log_wrapper
 
 
-@log_return
+@log_call
 def get_commit_ids(event_data):
     print(event_data)
     if 'commits' not in event_data:
@@ -34,7 +34,7 @@ def flatten(list_of_items):
     return [item for sublist in list_of_items for item in sublist]
 
 
-@log_return
+@log_call
 def load_meta_data(file_path):
     with open(file_path) as f:
         return json.loads(f.read())["pipelines"]
@@ -45,12 +45,15 @@ def line_to_pipeline_data(line):
     return {"organization": organization, "project": project, "definitionId": int(definitionId)}
 
 
-@log_return
+@log_call
 def get_changed_contracts(commit_ids):
     commit_ids_str = ' '.join(commit_ids)
     git_command = f"git show --name-only --format=tformat: {commit_ids_str}"
     stream = os.popen(git_command)
-    lines = [line.strip() for line in stream.readlines()]
+    raw_lines = stream.readlines()
+    print(f"Ran git command {git_command}")
+    print("Output: {raw_lines}")
+    lines = [line.strip() for line in raw_lines]
     return [path for path in lines if path.endswith(".qontract")]
 
 
@@ -64,18 +67,19 @@ def invoke_pipeline(owner, repo, bearer_token):
     stream.read()
 
 
+@log_call
 def invoke_pipelines(pipelines, bearer_token):
     for pipeline in pipelines:
         invoke_pipeline(**dict(pipeline, bearer_token=bearer_token))
 
 
-@log_return
+@log_call
 def get_meta_data_paths(changed_contracts):
     paths = [to_meta_file_name(contract) for contract in changed_contracts]
     return [path for path in paths if os.path.isfile(path)]
 
 
-@log_return
+@log_call
 def get_pipelines(meta_data_file_paths):
     return flatten([load_meta_data(file_path) for file_path in meta_data_file_paths])
 
