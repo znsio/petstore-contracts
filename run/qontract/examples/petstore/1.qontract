@@ -1,6 +1,5 @@
 Feature: Contract for the petstore service
 
-
   Background:
     Given json Pet
       | name   | (string) |
