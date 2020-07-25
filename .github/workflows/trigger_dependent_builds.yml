@@ -35,3 +35,4 @@ jobs:
       env:
         SECRET: ${{ secrets.PETSTORE_ACCESS_TOKEN }}
         SYSTEM_ACCESSTOKEN: ${{ secrets.PETSTORE_ACCESS_TOKEN }}
+        ACCESS_TOKEN_NAME: SYSTEM_ACCESSTOKEN

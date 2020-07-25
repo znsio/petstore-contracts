@@ -72,19 +72,19 @@ def to_meta_file_name(path):
     return os.path.splitext(path)[0] + ".json"
 
 
-def invoke_pipeline(owner, repo, bearer_token):
+def invoke_pipeline(owner, repo, access_token_name):
     print(f"Invoking pipeline for owner {owner}, repo {repo}")
     payload = "{\"event_type\":\"run_action\"}"
-    command = f"curl -X POST -H \"Authorization: token $SYSTEM_ACCESSTOKEN\" -H 'Accept: application/vnd.github.v3+json' -d '{payload}' https://api.github.com/repos/{owner}/{repo}/dispatches"
+    command = f"curl -X POST -H \"Authorization: token ${access_token_name}\" -H 'Accept: application/vnd.github.v3+json' -d '{payload}' https://api.github.com/repos/{owner}/{repo}/dispatches"
     print(command)
     stream = os.popen(command)
     print(stream.read())
 
 
 @log_call
-def invoke_pipelines(pipelines, bearer_token):
+def invoke_pipelines(pipelines, access_token_name):
     for pipeline in pipelines:
-        invoke_pipeline(**dict(pipeline, bearer_token=bearer_token))
+        invoke_pipeline(**dict(pipeline, access_token_name=access_token_name))
 
 
 @log_call
@@ -98,11 +98,11 @@ def get_pipelines(meta_data_file_paths):
     return flatten([load_meta_data(file_path) for file_path in meta_data_file_paths])
 
 
-SYSTEM_ACCESSTOKEN = os.environ['SYSTEM_ACCESSTOKEN']
+ACCESS_TOKEN_NAME = os.environ['ACCESS_TOKEN_NAME']
 
 event_data = read_event_data()
 commit_range = get_commit_range(event_data)
 changed_contracts = get_changed_contracts_in_range(commit_range)
 meta_data_file_paths = get_meta_data_paths(changed_contracts)
 pipelines = get_pipelines(meta_data_file_paths)
-invoke_pipelines(pipelines, SYSTEM_ACCESSTOKEN)
+invoke_pipelines(pipelines, ACCESS_TOKEN_NAME)
