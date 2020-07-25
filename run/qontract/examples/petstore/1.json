@@ -1,0 +1,5 @@
+{
+  "pipelines": [
+    {"owner":  "qontract", "repo":  "petstore"}
+  ]
+}
