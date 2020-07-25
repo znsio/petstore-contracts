@@ -86,6 +86,9 @@ def get_pipelines(meta_data_file_paths):
 
 SYSTEM_ACCESSTOKEN = os.environ['SYSTEM_ACCESSTOKEN']
 
+stream = os.popen(f"git --version")
+print(stream.read())
+
 event_data = read_event_data()
 commit_ids = get_commit_ids(event_data)
 changed_contracts = get_changed_contracts(commit_ids)
