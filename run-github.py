@@ -52,7 +52,7 @@ def get_changed_contracts(commit_ids):
     stream = os.popen(git_command)
     raw_lines = stream.readlines()
     print(f"Ran git command {git_command}")
-    print("Output: {raw_lines}")
+    print(f"Output: {raw_lines}")
     lines = [line.strip() for line in raw_lines]
     return [path for path in lines if path.endswith(".qontract")]
 
