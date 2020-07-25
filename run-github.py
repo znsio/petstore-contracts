@@ -22,6 +22,7 @@ def log_return(fn):
 
 @log_return
 def get_commit_ids(event_data):
+    print(event_data)
     if 'commits' not in event_data:
         return []
 
