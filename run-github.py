@@ -27,7 +27,7 @@ def get_commit_ids(event_data):
         return []
 
     commits = event_data['commits']
-    return [commit['sha'] for commit in commits]
+    return [commit['id'] for commit in commits]
 
 
 def flatten(list_of_items):
