@@ -1,4 +1,4 @@
-Feature: Contract for the petstore service
+Feature: Contract for the petstore service (edit)
 
   Background:
     Given json Pet
