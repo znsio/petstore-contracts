@@ -3,4 +3,5 @@
     {"owner":  "qontract", "repo":  "petstore", "event_type":  "contracts changed"},
     {"owner":  "qontract", "repo":  "petstore-website", "event_type":  "contracts changed"}
   ]
+  
 }
