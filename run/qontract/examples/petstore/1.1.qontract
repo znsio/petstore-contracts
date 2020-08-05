@@ -7,6 +7,7 @@ Feature: Contract for the petstore service
       | type   | (string) |
       | status | (string) |
       | id     | (number) |
+      | breed  | (string) |
     And json Pets (Pet*)
     And json Order
       | type   | (string) |
