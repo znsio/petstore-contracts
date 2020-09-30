@@ -1,6 +1,5 @@
 Feature: Contract for the petstore service
 
-
   Background:
     Given json Pet
       | name   | (string) |
@@ -16,24 +15,31 @@ Feature: Contract for the petstore service
     And json Orders (Order*)
 
   Scenario: Fetch pet details
-    Given fact id (number)
     When GET /pets/(id:number)
     Then status 200
     And response-body (Pet)
+  Examples:
+  | id |
+  | 10 |
 
   Scenario: Update pet details
-    Given fact id (number)
     When POST /pets
     And request-body (Pet)
     Then status 200
 
+  Examples:
+  | name   | type | status    | id |
+  | Archie | dog  | available | 10 |
+
   Scenario: Delete an existing pet from the database
-    Given fact id (number)
     When DELETE /pets/(id:number)
     Then status 200
 
+  Examples:
+  | id |
+  | 20 |
+
   Scenario: Create a new pet
-    Given fact no_pets
     And pattern Pet
       | name   | (string) |
       | type   | (string) |
@@ -43,52 +49,57 @@ Feature: Contract for the petstore service
     Then status 200
     And response-body (number)
 
+  Examples:
+  | name  | type | status    |
+  | Socks | cat  | available |
+
   Scenario Outline: Search for pets
-    Given fact type
-    And fact name
-    And fact status
     When GET /pets?name=(string)&type=(string)&status=(string)
     Then status 200
     And response-body (Pets)
 
-    Examples:
-      | type | name     | status |
-      | dog  |          |        |
-      |      | (string) |        |
-      |      |          | sold   |
+  Examples:
+  | type | name      | status |
+  | dog  |           |        |
+  |      | available |        |
+  |      |           | sold   |
 
   Scenario: Place an order
-    Given fact type (string)
-    And fact count (number)
-    And fact api order
     When POST /orders
     And request-body (Order)
     Then status 200
 
+  Examples:
+  | type | count | status  | id |
+  | dog  | 1     | pending | 30 |
+
   Scenario: Get details of an order
-    Given fact id (number)
-    And fact api order
     When GET /orders/order/(id:number)
     Then status 200
     And response-body (Order)
 
+  Examples:
+  | id |
+  | 10 |
+
   Scenario: Delete an order
-    Given fact id (number)
-    And fact api order
     When DELETE /orders/order/(id:number)
     Then status 200
 
+  Examples:
+  | id |
+  | 20 |
+
   Scenario: Update details of an order
-    Given fact id (number)
-    And fact api order
     When POST /orders/order/(id:number)
     And request-body (string)
     Then status 200
 
+  Examples:
+  | type | count | status  | id |
+  | dog  | 1     | pending | 10 |
+
   Scenario Outline: Search for orders
-    Given fact type
-    And fact status
-    And fact api order
     When GET /orders?type=(string)&status=(string)
     Then status 200
     And response-body (Orders)
@@ -97,4 +108,4 @@ Feature: Contract for the petstore service
       | type | status  |
       | dog  |         |
       |      | pending |
-      
+
