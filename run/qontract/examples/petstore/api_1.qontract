@@ -14,32 +14,32 @@ Feature: Contract for the petstore service
       | id     | (number) |
     And json Orders (Order*)
 
-  Scenario: Fetch pet details
+  Scenario Outline: Fetch pet details
     When GET /pets/(id:number)
     Then status 200
     And response-body (Pet)
-  Examples:
-  | id |
-  | 10 |
+    Examples:
+      | id |
+      | 10 |
 
-  Scenario: Update pet details
+  Scenario Outline: Update pet details
     When POST /pets
     And request-body (Pet)
     Then status 200
 
-  Examples:
-  | name   | type | status    | id |
-  | Archie | dog  | available | 10 |
+    Examples:
+      | name   | type | status    | id |
+      | Archie | dog  | available | 10 |
 
-  Scenario: Delete an existing pet from the database
+  Scenario Outline: Delete an existing pet from the database
     When DELETE /pets/(id:number)
     Then status 200
 
-  Examples:
-  | id |
-  | 20 |
+    Examples:
+      | id |
+      | 20 |
 
-  Scenario: Create a new pet
+  Scenario Outline: Create a new pet
     And pattern Pet
       | name   | (string) |
       | type   | (string) |
@@ -49,55 +49,55 @@ Feature: Contract for the petstore service
     Then status 200
     And response-body (number)
 
-  Examples:
-  | name  | type | status    |
-  | Socks | cat  | available |
+    Examples:
+      | name  | type | status    |
+      | Socks | cat  | available |
 
   Scenario Outline: Search for pets
     When GET /pets?name=(string)&type=(string)&status=(string)
     Then status 200
     And response-body (Pets)
 
-  Examples:
-  | type | name      | status |
-  | dog  |           |        |
-  |      | available |        |
-  |      |           | sold   |
+    Examples:
+      | type | name      | status |
+      | dog  |           |        |
+      |      | available |        |
+      |      |           | sold   |
 
-  Scenario: Place an order
+  Scenario Outline: Place an order
     When POST /orders
     And request-body (Order)
     Then status 200
 
-  Examples:
-  | type | count | status  | id |
-  | dog  | 1     | pending | 30 |
+    Examples:
+      | type | count | status  | id |
+      | dog  | 1     | pending | 30 |
 
-  Scenario: Get details of an order
+  Scenario Outline: Get details of an order
     When GET /orders/order/(id:number)
     Then status 200
     And response-body (Order)
 
-  Examples:
-  | id |
-  | 10 |
+    Examples:
+      | id |
+      | 10 |
 
-  Scenario: Delete an order
+  Scenario Outline: Delete an order
     When DELETE /orders/order/(id:number)
     Then status 200
 
-  Examples:
-  | id |
-  | 20 |
+    Examples:
+      | id |
+      | 20 |
 
-  Scenario: Update details of an order
+  Scenario Outline: Update details of an order
     When POST /orders/order/(id:number)
     And request-body (string)
     Then status 200
 
-  Examples:
-  | type | count | status  | id |
-  | dog  | 1     | pending | 10 |
+    Examples:
+      | type | count | status  | id |
+      | dog  | 1     | pending | 10 |
 
   Scenario Outline: Search for orders
     When GET /orders?type=(string)&status=(string)
