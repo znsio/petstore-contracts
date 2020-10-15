@@ -1,0 +1,35 @@
+Feature: Petstore SOAP API
+  Scenario Outline: Get Pet Info
+    Given type Request
+    """
+	<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+		<SOAP-ENV:Header/>
+		<SOAP-ENV:Body>
+			<ns2:GetPetRequest xmlns:ns2="http://qontract.run/petstore/api">
+			<ns2:id>(number)</ns2:id>
+			</ns2:GetPetRequest>
+		</SOAP-ENV:Body>
+	</SOAP-ENV:Envelope>
+    """
+    Given type Response
+    """
+	<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+		<SOAP-ENV:Header/>
+		<SOAP-ENV:Body>
+		<ns2:GetPetResponse xmlns:ns2="http://qontract.run/petstore/api">
+			<ns2:id>(number)</ns2:id>
+			<ns2:name>(string)</ns2:name>
+			<ns2:type>(string)</ns2:type>
+			<ns2:status>(string)</ns2:status>
+		</ns2:GetPetResponse>
+		</SOAP-ENV:Body>
+	</SOAP-ENV:Envelope>
+    """
+    When POST /ws
+    And request-body (Request)
+    Then status 200
+    And response-body (Response)
+
+  Examples:
+  | id |
+  | 1  |

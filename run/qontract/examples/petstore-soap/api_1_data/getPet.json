@@ -1,0 +1,11 @@
+{
+    "http-request": {
+        "method": "POST",
+        "path": "/ws",
+        "body": "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetPetRequest xmlns:ns2=\"http://qontract.run/petstore/api\"><ns2:id>2</ns2:id></ns2:GetPetRequest></SOAP-ENV:Body></SOAP-ENV:Envelope>"
+    },
+    "http-response": {
+        "status": 200,
+        "body": "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Header/><SOAP-ENV:Body><ns2:GetPetResponse xmlns:ns2=\"http://qontract.run/petstore/api\"><ns2:id>2</ns2:id><ns2:name>Judy</ns2:name><ns2:type>dog</ns2:type><ns2:status>available</ns2:status></ns2:GetPetResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>"
+    }
+}
