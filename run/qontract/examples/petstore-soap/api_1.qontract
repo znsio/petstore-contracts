@@ -1,4 +1,4 @@
-Feature: Petstore SOAP API
+Feature: Petstore SOAP API (edited)
   Scenario Outline: Get Pet Info
     Given type Request
     """
