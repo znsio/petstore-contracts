@@ -1,7 +1,7 @@
 {
   "pipelines": [
     {"owner":  "qontract", "repo":  "petstore-soap-api", "event_type":  "contracts changed"},
-    {"owner":  "qontract", "repo":  "petstore-soap-client", "event_type":  "contracts changed"}
+    {"owner":  "qontract", "repo":  "petstore-soap-website", "event_type":  "contracts changed"}
   ]
   
 }
