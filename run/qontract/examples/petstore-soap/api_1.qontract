@@ -11,7 +11,7 @@ Feature: Petstore SOAP API (edited)
 		</SOAP-ENV:Body>
 	</SOAP-ENV:Envelope>
     """
-    Given type Response
+    And type Response
     """
 	<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
 		<SOAP-ENV:Header/>
