@@ -2,6 +2,9 @@
   "mock-http-request": {
     "method": "PUT",
     "path": "/pets",
+    "headers": {
+      "Authenticate": "(string)"
+    },
     "body": {
       "name": "Archie",
       "type": "dog",

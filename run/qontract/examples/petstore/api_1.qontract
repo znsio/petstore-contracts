@@ -1,5 +1,4 @@
 Feature: Contract for the petstore service
-
   Background:
     Given json Pet
       | name   | (string) |
@@ -13,9 +12,11 @@ Feature: Contract for the petstore service
       | status | (string) |
       | id     | (number) |
     And json Orders (Order*)
+    And value auth from auth.qontract
 
   Scenario Outline: Fetch pet details
     When GET /pets/(id:number)
+    And request-header Authenticate (string)
     Then status 200
     And response-body (Pet)
     Examples:
@@ -24,20 +25,22 @@ Feature: Contract for the petstore service
 
   Scenario Outline: Update pet details
     When POST /pets
+    And request-header Authenticate (string)
     And request-body (Pet)
     Then status 200
 
     Examples:
-      | name   | type | status    | id |
-      | Archie | dog  | available | 10 |
+      | name   | type | status    | id | Authenticate  |
+      | Archie | dog  | available | 10 | ($auth.token) |
 
   Scenario Outline: Delete an existing pet from the database
     When DELETE /pets/(id:number)
+    And request-header Authenticate (string)
     Then status 200
 
     Examples:
-      | id |
-      | 20 |
+      | id | Authenticate  |
+      | 20 | ($auth.token) |
 
   Scenario Outline: Create a new pet
     And pattern Pet
@@ -45,13 +48,14 @@ Feature: Contract for the petstore service
       | type   | (string) |
       | status | (string) |
     When PUT /pets
+    And request-header Authenticate (string)
     And request-body (Pet)
     Then status 200
     And response-body (number)
 
     Examples:
-      | name  | type | status    |
-      | Socks | cat  | available |
+      | name  | type | status    | Authenticate  |
+      | Socks | cat  | available | ($auth.token) |
 
   Scenario Outline: Search for pets
     When GET /pets?name=(string)&type=(string)&status=(string)
@@ -66,12 +70,13 @@ Feature: Contract for the petstore service
 
   Scenario Outline: Place an order
     When POST /orders
+    And request-header Authenticate (string)
     And request-body (Order)
     Then status 200
 
     Examples:
-      | type | count | status  | id |
-      | dog  | 1     | pending | 30 |
+      | type | count | status  | id | Authenticate  |
+      | dog  | 1     | pending | 30 | ($auth.token) |
 
   Scenario Outline: Get details of an order
     When GET /orders/order/(id:number)
@@ -84,20 +89,22 @@ Feature: Contract for the petstore service
 
   Scenario Outline: Delete an order
     When DELETE /orders/order/(id:number)
+    And request-header Authenticate (string)
     Then status 200
 
     Examples:
-      | id |
-      | 20 |
+      | id | Authenticate  |
+      | 20 | ($auth.token) |
 
   Scenario Outline: Update details of an order
     When POST /orders/order/(id:number)
+    And request-header Authenticate (string)
     And request-body (string)
     Then status 200
 
     Examples:
-      | type | count | status  | id |
-      | dog  | 1     | pending | 10 |
+      | type | count | status  | id | Authenticate  |
+      | dog  | 1     | pending | 10 | ($auth.token) |
 
   Scenario Outline: Search for orders
     When GET /orders?type=(string)&status=(string)
