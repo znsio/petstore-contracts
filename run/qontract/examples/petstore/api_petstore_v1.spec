@@ -12,7 +12,7 @@ Feature: Contract for the petstore service
       | status | (string) |
       | id     | (number) |
     And json Orders (Order*)
-    And value auth from auth.qontract
+    And value auth from auth.spec
 
   Scenario Outline: Fetch pet details
     When GET /pets/(id:number)
