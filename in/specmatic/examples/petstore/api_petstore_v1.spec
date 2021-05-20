@@ -16,7 +16,6 @@ Feature: Contract for the petstore service
 
   Scenario Outline: Fetch pet details
     When GET /pets/(id:number)
-    And request-header Authenticate (string)
     Then status 200
     And response-body (Pet)
     Examples:
